@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
+const http_1 = __importDefault(require("http"));
 //import ErrorHandler from "./middleware/error-handler";
 //import Database from "./config/db";
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -18,6 +19,7 @@ class App {
     constructor() {
         this.app = (0, express_1.default)();
         this.port = parseInt(process.env.PORT || "3000");
+        this.httpServer = http_1.default.createServer(this.app);
         this.init();
     }
     init() {
@@ -45,6 +47,9 @@ class App {
     listen() {
         const server = new wsServer_service_1.default(this.port);
         console.log(`WebSocket server is running on ws://localhost:${this.port}`);
+        this.httpServer.listen(this.port + 5, () => {
+            console.log(`HTTP server is running on http://localhost:${this.port + 5}`);
+        });
     }
 }
 exports.default = App;

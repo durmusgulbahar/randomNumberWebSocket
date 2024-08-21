@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import cors from "cors";
 import helmet from "helmet";
+import http from 'http';
 //import ErrorHandler from "./middleware/error-handler";
 //import Database from "./config/db";
 import dotenv from "dotenv";
@@ -12,10 +13,12 @@ dotenv.config();
 class App {
   private readonly app: Application;
   private readonly port: number;
+  private readonly httpServer: http.Server;
 
   constructor() {
     this.app = express();
     this.port = parseInt(process.env.PORT || "3000");
+    this.httpServer = http.createServer(this.app);
     this.init();
   }
 
@@ -52,6 +55,10 @@ class App {
     const server = new WebSocketServer(this.port);
     
     console.log(`WebSocket server is running on ws://localhost:${this.port}`);
+    
+    this.httpServer.listen(this.port + 5, () => {
+      console.log(`HTTP server is running on http://localhost:${this.port + 5}`);
+  });
   }
 }
 

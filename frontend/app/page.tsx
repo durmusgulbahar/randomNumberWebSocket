@@ -7,7 +7,7 @@ const RandomNumberPage = () => {
   const [clientCount, setClientCount] = useState<number | null>(null);
   useEffect(() => {
     // Create a new WebSocket connection
-    const ws = new WebSocket('ws://localhost:3005');
+    const ws = new WebSocket('wss://ws-server.durmusgulbahar.dev');
 
     // Event listener for successful connection
     ws.onopen = () => {
